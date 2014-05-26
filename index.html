@@ -3,19 +3,39 @@
 <head>
 <meta charset="utf-8">
 <link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
-<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0"/>
 
 <title>Ze Datastack</title>
-<link rel="stylesheet" type="text/css" href="assets/jquery.dataTables.min.css">
-<link rel="stylesheet" type="text/css" href="assets/stacktable.css">
+<link rel="stylesheet" type="text/css" href="assets/jquery.dataTables.min.css"/>
+<!--<link rel="stylesheet" type="text/css" href="assets/stacktable.css"/>-->
+<link rel="stylesheet" type="text/css" href="assets/style.css"/>
 
 <script type="text/javascript" language="javascript" src="assets/jquery.min.js"></script>
 <script type="text/javascript" language="javascript" src="assets/jquery.dataTables.min.js"></script>
-<script type="text/javascript" language="javascript" src="assets/stacktable.js"></script>
+<!--<script type="text/javascript" language="javascript" src="assets/stacktable.js"></script>-->
 <script type="text/javascript" language="javascript" class="init">
+/*
+    @var table: Table to be 
+*/
+function tableStack(table){
+    var headertext = [],
+        headers = document.querySelectorAll(table + " th"),
+        tablerows = document.querySelectorAll(table + "th"),
+        tablebody = document.querySelector(table + " tbody");
+
+    for(var i = 0; i < headers.length; i++) {
+      var current = headers[i];
+      headertext.push(current.textContent.replace(/\r?\n|\r/,""));
+    } 
+    for (var i = 0, row; row = tablebody.rows[i]; i++) {
+      for (var j = 0, col; col = row.cells[j]; j++) {
+        col.setAttribute("data-th", headertext[j]);
+      } 
+    }
+}
+
 $(document).ready(function() {
-	var dstable = $('#example');
-	dstable.dataTable( {
+	$('.wk-datatable').dataTable( {
 		columnDefs: [ {
 			targets: [ 0 ],
 			orderData: [ 0, 1 ]
@@ -28,7 +48,7 @@ $(document).ready(function() {
 		} ]
 	});
 	
-	dstable.stacktable();
+	tableStack(".wk-datatable");
 });
 </script>
 
@@ -52,7 +72,7 @@ body{
 		
 		<section>
 
-			<table id="example" class="large-only stacktable" cellspacing="0" width="100%">
+			<table class="wk-datatable" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th>First name</th>
